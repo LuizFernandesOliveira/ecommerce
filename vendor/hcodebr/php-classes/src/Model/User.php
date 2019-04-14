@@ -14,7 +14,7 @@ class User extends Model
     const SECRET_IV = '<?tpirc#@#htig?>';
 
     protected $fields = [
-        "iduser", "idperson", "deslogin", "despassword", "inadmin", "dtergister", "desperson", "nrphone", "desemail"
+        "iduser", "idperson", "deslogin", "despassword", "inadmin", "dtergister", "desperson", "nrphone", "desemail", "idcategory", "descategory"
     ];
 
     public static function login($login, $password)

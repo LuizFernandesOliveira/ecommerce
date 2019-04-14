@@ -981,691 +981,704 @@
     <table id="253" parent="2" name="tb_users"/>
     <table id="254" parent="2" name="tb_userslogs"/>
     <table id="255" parent="2" name="tb_userspasswordsrecoveries"/>
-    <routine id="256" parent="2" name="sp_users_delete">
+    <routine id="256" parent="2" name="sp_categories_save">
+      <SourceTextLength>324</SourceTextLength>
+      <Definer>root@localhost</Definer>
+      <RoutineKind>procedure</RoutineKind>
+    </routine>
+    <routine id="257" parent="2" name="sp_users_delete">
       <SourceTextLength>213</SourceTextLength>
       <Definer>root@localhost</Definer>
       <RoutineKind>procedure</RoutineKind>
     </routine>
-    <routine id="257" parent="2" name="sp_users_save">
+    <routine id="258" parent="2" name="sp_users_save">
       <SourceTextLength>415</SourceTextLength>
       <Definer>root@localhost</Definer>
       <RoutineKind>procedure</RoutineKind>
     </routine>
-    <routine id="258" parent="2" name="sp_userspasswordsrecoveries_create">
+    <routine id="259" parent="2" name="sp_userspasswordsrecoveries_create">
       <SourceTextLength>181</SourceTextLength>
       <Definer>root@localhost</Definer>
       <RoutineKind>procedure</RoutineKind>
     </routine>
-    <routine id="259" parent="2" name="sp_usersupdate_save">
+    <routine id="260" parent="2" name="sp_usersupdate_save">
       <SourceTextLength>496</SourceTextLength>
       <Definer>root@localhost</Definer>
       <RoutineKind>procedure</RoutineKind>
     </routine>
-    <column id="260" parent="244" name="idaddress">
+    <column id="261" parent="244" name="idaddress">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="261" parent="244" name="idperson">
+    <column id="262" parent="244" name="idperson">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="262" parent="244" name="desaddress">
+    <column id="263" parent="244" name="desaddress">
       <Position>3</Position>
       <DataType>varchar(128)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="263" parent="244" name="descomplement">
+    <column id="264" parent="244" name="descomplement">
       <Position>4</Position>
       <DataType>varchar(32)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="264" parent="244" name="descity">
+    <column id="265" parent="244" name="descity">
       <Position>5</Position>
       <DataType>varchar(32)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="265" parent="244" name="desstate">
+    <column id="266" parent="244" name="desstate">
       <Position>6</Position>
       <DataType>varchar(32)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="266" parent="244" name="descountry">
+    <column id="267" parent="244" name="descountry">
       <Position>7</Position>
       <DataType>varchar(32)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="267" parent="244" name="nrzipcode">
+    <column id="268" parent="244" name="nrzipcode">
       <Position>8</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="268" parent="244" name="dtregister">
+    <column id="269" parent="244" name="dtregister">
       <Position>9</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="269" parent="244" name="fk_addresses_persons_idx">
+    <index id="270" parent="244" name="fk_addresses_persons_idx">
       <ColNames>idperson</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="270" parent="244" name="PRIMARY">
+    <key id="271" parent="244" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idaddress</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="271" parent="244" name="fk_addresses_persons">
+    <foreign-key id="272" parent="244" name="fk_addresses_persons">
       <ColNames>idperson</ColNames>
       <RefSchemaName>db_ecommerce</RefSchemaName>
       <RefTableName>tb_persons</RefTableName>
       <RefColNames>idperson</RefColNames>
     </foreign-key>
-    <column id="272" parent="245" name="idcart">
+    <column id="273" parent="245" name="idcart">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="273" parent="245" name="dessessionid">
+    <column id="274" parent="245" name="dessessionid">
       <Position>2</Position>
       <DataType>varchar(64)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="274" parent="245" name="iduser">
+    <column id="275" parent="245" name="iduser">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="275" parent="245" name="idaddress">
+    <column id="276" parent="245" name="idaddress">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="276" parent="245" name="vlfreight">
+    <column id="277" parent="245" name="vlfreight">
       <Position>5</Position>
       <DataType>decimal(10,2 digit)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="277" parent="245" name="dtregister">
+    <column id="278" parent="245" name="dtregister">
       <Position>6</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="278" parent="245" name="FK_carts_users_idx">
+    <index id="279" parent="245" name="FK_carts_users_idx">
       <ColNames>iduser</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="279" parent="245" name="fk_carts_addresses_idx">
+    <index id="280" parent="245" name="fk_carts_addresses_idx">
       <ColNames>idaddress</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="280" parent="245" name="PRIMARY">
+    <key id="281" parent="245" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idcart</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="281" parent="245" name="fk_carts_users">
+    <foreign-key id="282" parent="245" name="fk_carts_users">
       <ColNames>iduser</ColNames>
       <RefSchemaName>db_ecommerce</RefSchemaName>
       <RefTableName>tb_users</RefTableName>
       <RefColNames>iduser</RefColNames>
     </foreign-key>
-    <foreign-key id="282" parent="245" name="fk_carts_addresses">
+    <foreign-key id="283" parent="245" name="fk_carts_addresses">
       <ColNames>idaddress</ColNames>
       <RefSchemaName>db_ecommerce</RefSchemaName>
       <RefTableName>tb_addresses</RefTableName>
       <RefColNames>idaddress</RefColNames>
     </foreign-key>
-    <column id="283" parent="246" name="idcartproduct">
+    <column id="284" parent="246" name="idcartproduct">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="284" parent="246" name="idcart">
+    <column id="285" parent="246" name="idcart">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="285" parent="246" name="idproduct">
+    <column id="286" parent="246" name="idproduct">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="286" parent="246" name="dtremoved">
+    <column id="287" parent="246" name="dtremoved">
       <Position>4</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="287" parent="246" name="dtregister">
+    <column id="288" parent="246" name="dtregister">
       <Position>5</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="288" parent="246" name="FK_cartsproducts_carts_idx">
+    <index id="289" parent="246" name="FK_cartsproducts_carts_idx">
       <ColNames>idcart</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="289" parent="246" name="FK_cartsproducts_products_idx">
+    <index id="290" parent="246" name="FK_cartsproducts_products_idx">
       <ColNames>idproduct</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="290" parent="246" name="PRIMARY">
+    <key id="291" parent="246" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idcartproduct</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="291" parent="246" name="fk_cartsproducts_carts">
+    <foreign-key id="292" parent="246" name="fk_cartsproducts_carts">
       <ColNames>idcart</ColNames>
       <RefSchemaName>db_ecommerce</RefSchemaName>
       <RefTableName>tb_carts</RefTableName>
       <RefColNames>idcart</RefColNames>
     </foreign-key>
-    <foreign-key id="292" parent="246" name="fk_cartsproducts_products">
+    <foreign-key id="293" parent="246" name="fk_cartsproducts_products">
       <ColNames>idproduct</ColNames>
       <RefSchemaName>db_ecommerce</RefSchemaName>
       <RefTableName>tb_products</RefTableName>
       <RefColNames>idproduct</RefColNames>
     </foreign-key>
-    <column id="293" parent="247" name="idcategory">
+    <column id="294" parent="247" name="idcategory">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="294" parent="247" name="descategory">
+    <column id="295" parent="247" name="descategory">
       <Position>2</Position>
       <DataType>varchar(32)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="295" parent="247" name="dtregister">
+    <column id="296" parent="247" name="dtregister">
       <Position>3</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="296" parent="247" name="PRIMARY">
+    <key id="297" parent="247" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idcategory</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="297" parent="248" name="idorder">
+    <column id="298" parent="248" name="idorder">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="298" parent="248" name="idcart">
+    <column id="299" parent="248" name="idcart">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="299" parent="248" name="iduser">
+    <column id="300" parent="248" name="iduser">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="300" parent="248" name="idstatus">
+    <column id="301" parent="248" name="idstatus">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="301" parent="248" name="vltotal">
+    <column id="302" parent="248" name="vltotal">
       <Position>5</Position>
       <DataType>decimal(10,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="302" parent="248" name="dtregister">
+    <column id="303" parent="248" name="dtregister">
       <Position>6</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="303" parent="248" name="FK_orders_carts_idx">
+    <index id="304" parent="248" name="FK_orders_carts_idx">
       <ColNames>idcart</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="304" parent="248" name="FK_orders_users_idx">
+    <index id="305" parent="248" name="FK_orders_users_idx">
       <ColNames>iduser</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="305" parent="248" name="fk_orders_ordersstatus_idx">
+    <index id="306" parent="248" name="fk_orders_ordersstatus_idx">
       <ColNames>idstatus</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="306" parent="248" name="PRIMARY">
+    <key id="307" parent="248" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idorder</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="307" parent="248" name="fk_orders_carts">
+    <foreign-key id="308" parent="248" name="fk_orders_carts">
       <ColNames>idcart</ColNames>
       <RefSchemaName>db_ecommerce</RefSchemaName>
       <RefTableName>tb_carts</RefTableName>
       <RefColNames>idcart</RefColNames>
     </foreign-key>
-    <foreign-key id="308" parent="248" name="fk_orders_users">
+    <foreign-key id="309" parent="248" name="fk_orders_users">
       <ColNames>iduser</ColNames>
       <RefSchemaName>db_ecommerce</RefSchemaName>
       <RefTableName>tb_users</RefTableName>
       <RefColNames>iduser</RefColNames>
     </foreign-key>
-    <foreign-key id="309" parent="248" name="fk_orders_ordersstatus">
+    <foreign-key id="310" parent="248" name="fk_orders_ordersstatus">
       <ColNames>idstatus</ColNames>
       <RefSchemaName>db_ecommerce</RefSchemaName>
       <RefTableName>tb_ordersstatus</RefTableName>
       <RefColNames>idstatus</RefColNames>
     </foreign-key>
-    <column id="310" parent="249" name="idstatus">
+    <column id="311" parent="249" name="idstatus">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="311" parent="249" name="desstatus">
+    <column id="312" parent="249" name="desstatus">
       <Position>2</Position>
       <DataType>varchar(32)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="312" parent="249" name="dtregister">
+    <column id="313" parent="249" name="dtregister">
       <Position>3</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="313" parent="249" name="PRIMARY">
+    <key id="314" parent="249" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idstatus</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="314" parent="250" name="idperson">
+    <column id="315" parent="250" name="idperson">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="315" parent="250" name="desperson">
+    <column id="316" parent="250" name="desperson">
       <Position>2</Position>
       <DataType>varchar(64)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="316" parent="250" name="desemail">
+    <column id="317" parent="250" name="desemail">
       <Position>3</Position>
       <DataType>varchar(128)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="317" parent="250" name="nrphone">
+    <column id="318" parent="250" name="nrphone">
       <Position>4</Position>
       <DataType>bigint(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="318" parent="250" name="dtregister">
+    <column id="319" parent="250" name="dtregister">
       <Position>5</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="319" parent="250" name="PRIMARY">
+    <key id="320" parent="250" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idperson</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="320" parent="251" name="idproduct">
+    <column id="321" parent="251" name="idproduct">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="321" parent="251" name="desproduct">
+    <column id="322" parent="251" name="desproduct">
       <Position>2</Position>
       <DataType>varchar(64)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="322" parent="251" name="vlprice">
+    <column id="323" parent="251" name="vlprice">
       <Position>3</Position>
       <DataType>decimal(10,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="323" parent="251" name="vlwidth">
+    <column id="324" parent="251" name="vlwidth">
       <Position>4</Position>
       <DataType>decimal(10,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="324" parent="251" name="vlheight">
+    <column id="325" parent="251" name="vlheight">
       <Position>5</Position>
       <DataType>decimal(10,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="325" parent="251" name="vllength">
+    <column id="326" parent="251" name="vllength">
       <Position>6</Position>
       <DataType>decimal(10,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="326" parent="251" name="vlweight">
+    <column id="327" parent="251" name="vlweight">
       <Position>7</Position>
       <DataType>decimal(10,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="327" parent="251" name="desurl">
+    <column id="328" parent="251" name="desurl">
       <Position>8</Position>
       <DataType>varchar(128)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="328" parent="251" name="dtregister">
+    <column id="329" parent="251" name="dtregister">
       <Position>9</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="329" parent="251" name="PRIMARY">
+    <key id="330" parent="251" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idproduct</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="330" parent="252" name="idcategory">
+    <column id="331" parent="252" name="idcategory">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="331" parent="252" name="idproduct">
+    <column id="332" parent="252" name="idproduct">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="332" parent="252" name="fk_productscategories_products_idx">
+    <index id="333" parent="252" name="fk_productscategories_products_idx">
       <ColNames>idproduct</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="333" parent="252" name="PRIMARY">
+    <key id="334" parent="252" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idcategory
 idproduct</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="334" parent="252" name="fk_productscategories_categories">
+    <foreign-key id="335" parent="252" name="fk_productscategories_categories">
       <ColNames>idcategory</ColNames>
       <RefSchemaName>db_ecommerce</RefSchemaName>
       <RefTableName>tb_categories</RefTableName>
       <RefColNames>idcategory</RefColNames>
     </foreign-key>
-    <foreign-key id="335" parent="252" name="fk_productscategories_products">
+    <foreign-key id="336" parent="252" name="fk_productscategories_products">
       <ColNames>idproduct</ColNames>
       <RefSchemaName>db_ecommerce</RefSchemaName>
       <RefTableName>tb_products</RefTableName>
       <RefColNames>idproduct</RefColNames>
     </foreign-key>
-    <column id="336" parent="253" name="iduser">
+    <column id="337" parent="253" name="iduser">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="337" parent="253" name="idperson">
+    <column id="338" parent="253" name="idperson">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="338" parent="253" name="deslogin">
+    <column id="339" parent="253" name="deslogin">
       <Position>3</Position>
       <DataType>varchar(64)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="339" parent="253" name="despassword">
+    <column id="340" parent="253" name="despassword">
       <Position>4</Position>
       <DataType>varchar(256)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="340" parent="253" name="inadmin">
+    <column id="341" parent="253" name="inadmin">
       <Position>5</Position>
       <DataType>tinyint(4)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="341" parent="253" name="dtregister">
+    <column id="342" parent="253" name="dtregister">
       <Position>6</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="342" parent="253" name="FK_users_persons_idx">
+    <index id="343" parent="253" name="FK_users_persons_idx">
       <ColNames>idperson</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="343" parent="253" name="PRIMARY">
+    <key id="344" parent="253" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>iduser</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="344" parent="253" name="fk_users_persons">
+    <foreign-key id="345" parent="253" name="fk_users_persons">
       <ColNames>idperson</ColNames>
       <RefSchemaName>db_ecommerce</RefSchemaName>
       <RefTableName>tb_persons</RefTableName>
       <RefColNames>idperson</RefColNames>
     </foreign-key>
-    <column id="345" parent="254" name="idlog">
+    <column id="346" parent="254" name="idlog">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="346" parent="254" name="iduser">
+    <column id="347" parent="254" name="iduser">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="347" parent="254" name="deslog">
+    <column id="348" parent="254" name="deslog">
       <Position>3</Position>
       <DataType>varchar(128)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="348" parent="254" name="desip">
+    <column id="349" parent="254" name="desip">
       <Position>4</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="349" parent="254" name="desuseragent">
+    <column id="350" parent="254" name="desuseragent">
       <Position>5</Position>
       <DataType>varchar(128)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="350" parent="254" name="dessessionid">
+    <column id="351" parent="254" name="dessessionid">
       <Position>6</Position>
       <DataType>varchar(64)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="351" parent="254" name="desurl">
+    <column id="352" parent="254" name="desurl">
       <Position>7</Position>
       <DataType>varchar(128)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="352" parent="254" name="dtregister">
+    <column id="353" parent="254" name="dtregister">
       <Position>8</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="353" parent="254" name="fk_userslogs_users_idx">
+    <index id="354" parent="254" name="fk_userslogs_users_idx">
       <ColNames>iduser</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="354" parent="254" name="PRIMARY">
+    <key id="355" parent="254" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idlog</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="355" parent="254" name="fk_userslogs_users">
+    <foreign-key id="356" parent="254" name="fk_userslogs_users">
       <ColNames>iduser</ColNames>
       <RefSchemaName>db_ecommerce</RefSchemaName>
       <RefTableName>tb_users</RefTableName>
       <RefColNames>iduser</RefColNames>
     </foreign-key>
-    <column id="356" parent="255" name="idrecovery">
+    <column id="357" parent="255" name="idrecovery">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="357" parent="255" name="iduser">
+    <column id="358" parent="255" name="iduser">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="358" parent="255" name="desip">
+    <column id="359" parent="255" name="desip">
       <Position>3</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="359" parent="255" name="dtrecovery">
+    <column id="360" parent="255" name="dtrecovery">
       <Position>4</Position>
       <DataType>datetime|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="360" parent="255" name="dtregister">
+    <column id="361" parent="255" name="dtregister">
       <Position>5</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="361" parent="255" name="fk_userspasswordsrecoveries_users_idx">
+    <index id="362" parent="255" name="fk_userspasswordsrecoveries_users_idx">
       <ColNames>iduser</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="362" parent="255" name="PRIMARY">
+    <key id="363" parent="255" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idrecovery</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="363" parent="255" name="fk_userspasswordsrecoveries_users">
+    <foreign-key id="364" parent="255" name="fk_userspasswordsrecoveries_users">
       <ColNames>iduser</ColNames>
       <RefSchemaName>db_ecommerce</RefSchemaName>
       <RefTableName>tb_users</RefTableName>
       <RefColNames>iduser</RefColNames>
     </foreign-key>
-    <argument id="364" parent="256" name="piduser">
+    <argument id="365" parent="256" name="pidcategory">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
     </argument>
-    <argument id="365" parent="257" name="pdesperson">
-      <Position>1</Position>
-      <DataType>varchar(64)|0s</DataType>
-    </argument>
-    <argument id="366" parent="257" name="pdeslogin">
+    <argument id="366" parent="256" name="pdescategory">
       <Position>2</Position>
       <DataType>varchar(64)|0s</DataType>
     </argument>
-    <argument id="367" parent="257" name="pdespassword">
+    <argument id="367" parent="257" name="piduser">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+    </argument>
+    <argument id="368" parent="258" name="pdesperson">
+      <Position>1</Position>
+      <DataType>varchar(64)|0s</DataType>
+    </argument>
+    <argument id="369" parent="258" name="pdeslogin">
+      <Position>2</Position>
+      <DataType>varchar(64)|0s</DataType>
+    </argument>
+    <argument id="370" parent="258" name="pdespassword">
       <Position>3</Position>
       <DataType>varchar(256)|0s</DataType>
     </argument>
-    <argument id="368" parent="257" name="pdesemail">
+    <argument id="371" parent="258" name="pdesemail">
       <Position>4</Position>
       <DataType>varchar(128)|0s</DataType>
     </argument>
-    <argument id="369" parent="257" name="pnrphone">
+    <argument id="372" parent="258" name="pnrphone">
       <Position>5</Position>
       <DataType>bigint(20)|0s</DataType>
     </argument>
-    <argument id="370" parent="257" name="pinadmin">
+    <argument id="373" parent="258" name="pinadmin">
       <Position>6</Position>
       <DataType>tinyint(4)|0s</DataType>
     </argument>
-    <argument id="371" parent="258" name="piduser">
+    <argument id="374" parent="259" name="piduser">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
     </argument>
-    <argument id="372" parent="258" name="pdesip">
+    <argument id="375" parent="259" name="pdesip">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
     </argument>
-    <argument id="373" parent="259" name="piduser">
+    <argument id="376" parent="260" name="piduser">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
     </argument>
-    <argument id="374" parent="259" name="pdesperson">
+    <argument id="377" parent="260" name="pdesperson">
       <Position>2</Position>
       <DataType>varchar(64)|0s</DataType>
     </argument>
-    <argument id="375" parent="259" name="pdeslogin">
+    <argument id="378" parent="260" name="pdeslogin">
       <Position>3</Position>
       <DataType>varchar(64)|0s</DataType>
     </argument>
-    <argument id="376" parent="259" name="pdespassword">
+    <argument id="379" parent="260" name="pdespassword">
       <Position>4</Position>
       <DataType>varchar(256)|0s</DataType>
     </argument>
-    <argument id="377" parent="259" name="pdesemail">
+    <argument id="380" parent="260" name="pdesemail">
       <Position>5</Position>
       <DataType>varchar(128)|0s</DataType>
     </argument>
-    <argument id="378" parent="259" name="pnrphone">
+    <argument id="381" parent="260" name="pnrphone">
       <Position>6</Position>
       <DataType>bigint(20)|0s</DataType>
     </argument>
-    <argument id="379" parent="259" name="pinadmin">
+    <argument id="382" parent="260" name="pinadmin">
       <Position>7</Position>
       <DataType>tinyint(4)|0s</DataType>
     </argument>
