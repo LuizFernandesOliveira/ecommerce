@@ -1,138 +1,245 @@
-<?php 
+<?php
 
 namespace Hcode\Model;
 
+use Hcode\Mailer;
 use \Hcode\Model;
 use \Hcode\DB\Sql;
 
-class User extends Model {
+class User extends Model
+{
 
-	const SESSION = "User";
+    const SESSION = "User";
+    const SECRET = '<?gith@#@cript?>';
+    const SECRET_IV = '<?tpirc#@#htig?>';
 
-	protected $fields = [
-		"iduser", "idperson", "deslogin", "despassword", "inadmin", "dtergister", "desperson", "nrphone", "desemail"
-	];
+    protected $fields = [
+        "iduser", "idperson", "deslogin", "despassword", "inadmin", "dtergister", "desperson", "nrphone", "desemail"
+    ];
 
-	public static function login($login, $password)
-	{
+    public static function login($login, $password)
+    {
 
-		$db = new Sql();
+        $db = new Sql();
 
-		$results = $db->select("SELECT * FROM tb_users WHERE deslogin = :LOGIN", array(
-			":LOGIN"=>$login
-		));
+        $results = $db->select("SELECT * FROM tb_users WHERE deslogin = :LOGIN", array(
+            ":LOGIN" => $login
+        ));
 
-		if (count($results) === 0) {
-			throw new \Exception("Não foi possível fazer login.");
-		}
+        if (count($results) === 0) {
+            throw new \Exception("Não foi possível fazer login.");
+        }
 
-		$data = $results[0];
+        $data = $results[0];
 
-		if (password_verify($password, $data["despassword"])) {
+        if (password_verify($password, $data["despassword"])) {
 
-			$user = new User();
-			$user->setData($data);
+            $user = new User();
+            $user->setData($data);
 
-			$_SESSION[User::SESSION] = $user->getValues();
+            $_SESSION[User::SESSION] = $user->getValues();
 
-			return $user;
+            return $user;
 
-		} else {
+        } else {
 
-			throw new \Exception("Não foi possível fazer login.");
+            throw new \Exception("Não foi possível fazer login.");
 
-		}
-
-	}
-
-	public static function logout()
-	{
-
-		$_SESSION[User::SESSION] = NULL;
-
-	}
-
-	public static function verifyLogin($inadmin = true)
-	{
-
-		if (
-			!isset($_SESSION[User::SESSION])
-			|| 
-			!$_SESSION[User::SESSION]
-			||
-			!(int)$_SESSION[User::SESSION]["iduser"] > 0
-			||
-			(bool)$_SESSION[User::SESSION]["iduser"] !== $inadmin
-		) {
-			
-			header("Location: /admin/login");
-			exit;
-
-		}
-
-	}
-
-	public static function listAll(){
-
-	    $sql = new Sql();
-
-	    return $sql->select("select * from tb_users inner join tb_persons b using (idperson) order by b.desperson");
+        }
 
     }
 
-    public function save(){
+    public static function logout()
+    {
 
-	    $sql = new Sql();
+        $_SESSION[User::SESSION] = NULL;
 
-	    $results = $sql->select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)",
+    }
+
+    public static function verifyLogin($inadmin = true)
+    {
+
+        if (
+            !isset($_SESSION[User::SESSION])
+            ||
+            !$_SESSION[User::SESSION]
+            ||
+            !(int)$_SESSION[User::SESSION]["iduser"] > 0
+            ||
+            (bool)$_SESSION[User::SESSION]["iduser"] !== $inadmin
+        ) {
+
+            header("Location: /admin/login");
+            exit;
+
+        }
+
+    }
+
+    public static function listAll()
+    {
+
+        $sql = new Sql();
+
+        return $sql->select("select * from tb_users inner join tb_persons b using (idperson) order by b.desperson");
+
+    }
+
+    public function save()
+    {
+
+        $sql = new Sql();
+
+        $data = $this->getdespassword();
+
+        $code = password_hash($data, PASSWORD_BCRYPT, [
+            "cost"=>15
+        ]);
+
+        //var_dump($code);$2y$15$mretfME/9/VWQ4a/zH2j9eBiKDyBMV.mwN5pCfCDBfbkN3jOKxiF6
+        //exit;
+
+        $results = $sql->select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)",
             array(
-	        ":desperson"=>$this->getdesperson(),
-	        ":deslogin"=>$this->getdeslogin(),
-	        ":despassword"=>$this->getdespassword(),
-	        ":desemail"=>$this->getdesemail(),
-	        ":nrphone"=>$this->getnrphone(),
-	        ":inadmin"=>$this->getinadmin()
-        ));
+                ":desperson" => $this->getdesperson(),
+                ":deslogin" => $this->getdeslogin(),
+                ":despassword" => $code,
+                ":desemail" => $this->getdesemail(),
+                ":nrphone" => $this->getnrphone(),
+                ":inadmin" => $this->getinadmin()
+            ));
 
-	    $this->setData($results[0]);
+        $this->setData($results[0]);
 
     }
 
-    public function get($iduser){
-	    $sql = new Sql();
-	    $results = $sql->select("select * from tb_users a inner join tb_persons b using (idperson) where a.iduser = :iduser", array(
-	        ":iduser"=>$iduser
+    public function get($iduser)
+    {
+        $sql = new Sql();
+        $results = $sql->select("select * from tb_users a inner join tb_persons b using (idperson) where a.iduser = :iduser", array(
+            ":iduser" => $iduser
         ));
 
-	    $this->setData($results[0]);
+        $this->setData($results[0]);
     }
 
-    public function update(){
+    public function update()
+    {
         $sql = new Sql();
 
         $results = $sql->select("CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)",
             array(
-                ":iduser"=>$this->getiduser(),
-                ":desperson"=>$this->getdesperson(),
-                ":deslogin"=>$this->getdeslogin(),
-                ":despassword"=>$this->getdespassword(),
-                ":desemail"=>$this->getdesemail(),
-                ":nrphone"=>$this->getnrphone(),
-                ":inadmin"=>$this->getinadmin()
+                ":iduser" => $this->getiduser(),
+                ":desperson" => $this->getdesperson(),
+                ":deslogin" => $this->getdeslogin(),
+                ":despassword" => $this->getdespassword(),
+                ":desemail" => $this->getdesemail(),
+                ":nrphone" => $this->getnrphone(),
+                ":inadmin" => $this->getinadmin()
             ));
 
         $this->setData($results[0]);
     }
 
-    public function delete(){
+    public function delete()
+    {
 
-	    $sql = new Sql();
-	    $sql->query("CALL sp_users_delete(:iduser)", array(
-	        ":iduser"=>$this->getiduser()
+        $sql = new Sql();
+        $sql->query("CALL sp_users_delete(:iduser)", array(
+            ":iduser" => $this->getiduser()
         ));
 
     }
 
+    public static function getForgot($email)
+    {
+        $sql = new Sql();
+        $results = $sql->select("SELECT * FROM tb_persons a INNER JOIN tb_users b USING (idperson) WHERE a.desemail = :EMAIL", array(
+            ":EMAIL" => $email
+        ));
+        if (count($results) === 0) {
+            throw new \Exception("Não foi possível recuperar a senha");
+        } else {
+            $data = $results[0];
+
+            $results2 = $sql->select("CALL sp_userspasswordsrecoveries_create(:iduser, :desip)", array(
+                ":iduser" => $data["iduser"],
+                ":desip" => $_SERVER["REMOTE_ADDR"]
+            ));
+
+
+
+            if (count($results2) === 0) {
+                throw new \Exception("Não foi possível recuperar a senha");
+            } else {
+                $dataRecovery = $results2[0];
+                $code = openssl_encrypt(
+                        $dataRecovery["idrecovery"],
+                        'AES-128-CBC',
+                        User::SECRET,
+                        0,
+                        User::SECRET_IV
+                );
+
+
+                $link = "http://www.hcodecommerce.com.br/admin/forgot/reset?code=$code";
+
+                $mailer = new Mailer($data["desemail"], $data["desperson"], "Redefinir senha", "forgot", array(
+                    "name" => $data["desperson"],
+                    "link" => $link
+                ));
+
+                $mailer->send();
+
+                return $data;
+            }
+        }
+
+    }
+
+    public static function validForgotDecrypt($code)
+    {
+
+        $idrecovery = openssl_decrypt(
+            $code,
+            'AES-128-CBC',
+            User::SECRET,
+            0,
+            User::SECRET_IV
+        );
+
+        $sql = new Sql();
+        $results = $sql->select("SELECT * FROM tb_userspasswordsrecoveries a INNER JOIN tb_users b USING (iduser) INNER JOIN tb_persons c USING (idperson) WHERE a.idrecovery = :idrecovery AND a.dtrecovery IS NULL AND DATE_ADD(a.dtregister, INTERVAL 1 HOUR ) >= NOW()", array(
+            ":idrecovery" => $idrecovery
+        ));
+
+        if(count($results) === 0){
+            throw new \Exception("Não foi possível recuperar a senha");
+        }else{
+            return $results[0];
+        }
+    }
+
+    public static function setForgotDecrypt($idrecovery){
+
+        $sql = new Sql();
+        $sql->query("UPDATE tb_userspasswordsrecoveries SET dtrecovery = NOW() WHERE idrecovery = :idrecovery", array(
+            ":idrecovery"=>$idrecovery
+        ));
+
+    }
+    public function setPassword($password){
+        $sql = new Sql();
+        $password_code = password_hash($password, PASSWORD_BCRYPT, [
+            "cost"=>15
+        ]);;
+
+        $sql->query("UPDATE tb_users SET despassword = :password WHERE iduser = :iduser", array(
+            ":password"=>$password_code,
+            ":iduser"=>$this->getiduser()
+        ));
+    }
+
 }
 
- ?>
+?>
