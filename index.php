@@ -9,14 +9,21 @@ use \Hcode\Model\User;
 use \Hcode\Model\Category;
 use \Hcode\Model\Product;
 
+function formatPrice(float $vlprice){
+    return number_format($vlprice, 2, ",", ".");
+}
+
 $app = new Slim();
 
 $app->config('debug', true);
 
 
 $app->get('/', function () {
+    $product = Product::listAll();
     $page = new Page();
-    $page->setTpl("index");
+    $page->setTpl("index", [
+        'products'=>Product::checkList($product)
+    ]);
 });
 
 $app->get('/admin', function () {
@@ -266,7 +273,6 @@ $app->get('/admin/products/:idproduct/delete', function ($idproduct) {
     header("Location: /admin/products");
     exit;
 });
-
 
 $app->run();
 
