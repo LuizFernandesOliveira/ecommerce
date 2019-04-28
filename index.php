@@ -17,7 +17,7 @@ $app = new Slim();
 
 $app->config('debug', true);
 
-
+// ================ rotas do site =======================
 $app->get('/', function () {
     $product = Product::listAll();
     $page = new Page();
@@ -25,6 +25,18 @@ $app->get('/', function () {
         'products'=>Product::checkList($product)
     ]);
 });
+
+$app->get('/categories/:idcategory', function ($idcategory) {
+    $category = new Category();
+    $category->get((int)$idcategory);
+    $page = new Page();
+    $page->setTpl("category", [
+        "category" => $category->getValues(),
+        "products" => Product::checkList($category->getProducts())
+    ]);
+});
+
+// ================ rotas do Administrador =======================
 
 $app->get('/admin', function () {
     User::verifyLogin();
@@ -159,6 +171,8 @@ $app->post('/admin/forgot/reset', function () {
     $page->setTpl("forgot-reset-success");
 });
 
+// =================== Rotas de Categorias =======================
+
 $app->get('/admin/categories', function () {
     User::verifyLogin();
     $categories = Category::listAll();
@@ -212,15 +226,40 @@ $app->post('/admin/categories/:idcategory', function ($idcategory) {
     exit;
 });
 
-$app->get('/categories/:idcategory', function ($idcategory) {
+$app->get('/admin/categories/:idcategory/products', function ($idcategory){
+    User::verifyLogin();
     $category = new Category();
     $category->get((int)$idcategory);
-    $page = new Page();
-    $page->setTpl("category", [
+    $page = new PageAdmin();
+    $page->setTpl("categories-products", [
         "category" => $category->getValues(),
-        "products" => []
+        "productsRelated" => $category->getProducts(),
+        "productsNotRelated" => $category->getProducts(false)
     ]);
 });
+
+$app->get('/admin/categories/:idcategory/products/:idproduct/add', function ($idcategory, $idproduct){
+    User::verifyLogin();
+    $category = new Category();
+    $category->get((int)$idcategory);
+    $product = new Product();
+    $product->get((int)$idproduct);
+    $category->addProduct($product);
+    header("Location: /admin/categories/".$idcategory."/products");
+    exit;
+});
+$app->get('/admin/categories/:idcategory/products/:idproduct/remove', function ($idcategory, $idproduct){
+    User::verifyLogin();
+    $category = new Category();
+    $category->get((int)$idcategory);
+    $product = new Product();
+    $product->get((int)$idproduct);
+    $category->removeProduct($product);
+    header("Location: /admin/categories/".$idcategory."/products");
+    exit;
+});
+
+// ================== Rotas de Produtos =======================
 
 $app->get('/admin/products', function () {
     User::verifyLogin();

@@ -2,7 +2,6 @@
 
 namespace Hcode\Model;
 
-use Hcode\Mailer;
 use \Hcode\Model;
 use \Hcode\DB\Sql;
 
@@ -10,7 +9,10 @@ class Category extends Model
 {
 
     protected $fields = [
-        "iduser", "idperson", "deslogin", "despassword", "inadmin", "dtergister", "desperson", "nrphone", "desemail", "idcategory", "descategory"
+        "iduser", "idperson", "deslogin",
+        "despassword", "inadmin", "dtergister",
+        "desperson", "nrphone", "desemail",
+        "idcategory", "descategory", "idproduct"
     ];
 
 
@@ -23,7 +25,8 @@ class Category extends Model
 
     }
 
-    public function save(){
+    public function save()
+    {
         $sql = new Sql();
 
         $results = $sql->select("CALL sp_categories_save(:idcategory, :descategory)",
@@ -36,32 +39,75 @@ class Category extends Model
         Category::updateFile();
     }
 
-    public function get($idcategory){
+    public function get($idcategory)
+    {
         $sql = new Sql();
         $results = $sql->select("SELECT * FROM tb_categories WHERE idcategory = :idcategory", [
-            ":idcategory"=>$idcategory
+            ":idcategory" => $idcategory
         ]);
 
         $this->setData($results[0]);
     }
 
-    public function delete(){
+    public function delete()
+    {
         $sql = new Sql();
-        $sql->query("DELETE FROM tb_categories WHERE idcategory = :idcategory",[
-            ":idcategory"=>$this->getidcategory()
+        $sql->query("DELETE FROM tb_categories WHERE idcategory = :idcategory", [
+            ":idcategory" => $this->getidcategory()
         ]);
 
         Category::updateFile();
     }
 
-    public function updateFile(){
+    public function updateFile()
+    {
         $categories = Category::listAll();
         $html = [];
-        foreach ($categories as $row){
-            array_push($html, '<li><a href="/categories/'.$row['idcategory'].'">'.$row['descategory'].'</a></li>');
+        foreach ($categories as $row) {
+            array_push($html, '<li><a href="/categories/' . $row['idcategory'] . '">' . $row['descategory'] . '</a></li>');
         }
 
-        file_put_contents($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."views".DIRECTORY_SEPARATOR."categories-menu.html",implode('', $html));
+        file_put_contents($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "views" . DIRECTORY_SEPARATOR . "categories-menu.html", implode('', $html));
+    }
+
+    public function getProducts($related = true)
+    {
+        $sql = new Sql();
+        if ($related === true) {
+            return $sql->select("select * from tb_products where idproduct IN(
+                                        select a.idproduct
+                                        from tb_products a 
+                                        inner join tb_productscategories b on a.idproduct = b.idproduct 
+                                        where b.idcategory = :idcategory);
+                                    ", [
+                ":idcategory"=>$this->getidcategory()
+            ]);
+        } else {
+            return $sql->select("select * from tb_products where idproduct NOT IN(
+                                        select a.idproduct
+                                        from tb_products a 
+                                        inner join tb_productscategories b on a.idproduct = b.idproduct 
+                                        where b.idcategory = :idcategory);
+                                    ", [
+                ":idcategory"=>$this->getidcategory()
+            ]);
+        }
+    }
+
+    public function addProduct(Product $product){
+        $sql = new Sql();
+        $sql->query("insert into tb_productscategories (idcategory, idproduct) values (:idcategory, :idproduct)", [
+            ":idcategory"=>$this->getidcategory(),
+            ":idproduct"=>$product->getidproduct()
+        ]);
+    }
+
+    public function removeProduct(Product $product){
+        $sql = new Sql();
+        $sql->query("delete from tb_productscategories where idcategory = :idcategory and idproduct = :idproduct", [
+            ":idcategory"=>$this->getidcategory(),
+            ":idproduct"=>$product->getidproduct()
+        ]);
     }
 }
 
