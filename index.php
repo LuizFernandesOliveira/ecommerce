@@ -9,7 +9,8 @@ use \Hcode\Model\User;
 use \Hcode\Model\Category;
 use \Hcode\Model\Product;
 
-function formatPrice(float $vlprice){
+function formatPrice(float $vlprice)
+{
     return number_format($vlprice, 2, ",", ".");
 }
 
@@ -22,17 +23,27 @@ $app->get('/', function () {
     $product = Product::listAll();
     $page = new Page();
     $page->setTpl("index", [
-        'products'=>Product::checkList($product)
+        'products' => Product::checkList($product)
     ]);
 });
 
 $app->get('/categories/:idcategory', function ($idcategory) {
+    $page = (isset($_GET['page'])) ? (int)$_GET['page'] : 1;
     $category = new Category();
     $category->get((int)$idcategory);
+    $pagination = $category->getProductPage($page);
+    $pages = [];
+    for ($i = 1; $i <= $pagination['pages']; $i++) {
+        array_push($pages, [
+            'link' => '/categories/' . $category->getidcategory() . '?page=' . $i,
+            'page' => $i
+        ]);
+    }
     $page = new Page();
     $page->setTpl("category", [
         "category" => $category->getValues(),
-        "products" => Product::checkList($category->getProducts())
+        "products" => $pagination["data"],
+        "pages"=>$pages
     ]);
 });
 
@@ -226,7 +237,7 @@ $app->post('/admin/categories/:idcategory', function ($idcategory) {
     exit;
 });
 
-$app->get('/admin/categories/:idcategory/products', function ($idcategory){
+$app->get('/admin/categories/:idcategory/products', function ($idcategory) {
     User::verifyLogin();
     $category = new Category();
     $category->get((int)$idcategory);
@@ -238,24 +249,24 @@ $app->get('/admin/categories/:idcategory/products', function ($idcategory){
     ]);
 });
 
-$app->get('/admin/categories/:idcategory/products/:idproduct/add', function ($idcategory, $idproduct){
+$app->get('/admin/categories/:idcategory/products/:idproduct/add', function ($idcategory, $idproduct) {
     User::verifyLogin();
     $category = new Category();
     $category->get((int)$idcategory);
     $product = new Product();
     $product->get((int)$idproduct);
     $category->addProduct($product);
-    header("Location: /admin/categories/".$idcategory."/products");
+    header("Location: /admin/categories/" . $idcategory . "/products");
     exit;
 });
-$app->get('/admin/categories/:idcategory/products/:idproduct/remove', function ($idcategory, $idproduct){
+$app->get('/admin/categories/:idcategory/products/:idproduct/remove', function ($idcategory, $idproduct) {
     User::verifyLogin();
     $category = new Category();
     $category->get((int)$idcategory);
     $product = new Product();
     $product->get((int)$idproduct);
     $category->removeProduct($product);
-    header("Location: /admin/categories/".$idcategory."/products");
+    header("Location: /admin/categories/" . $idcategory . "/products");
     exit;
 });
 
@@ -266,7 +277,7 @@ $app->get('/admin/products', function () {
     $products = Product::listAll();
     $page = new PageAdmin();
     $page->setTpl("products", [
-       "products"=>$products
+        "products" => $products
     ]);
 });
 
