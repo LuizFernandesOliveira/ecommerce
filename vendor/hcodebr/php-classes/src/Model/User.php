@@ -17,6 +17,40 @@ class User extends Model
         "iduser", "idperson", "deslogin", "despassword", "inadmin", "dtergister", "desperson", "nrphone", "desemail", "idcategory", "descategory"
     ];
 
+    public static function getFromSession()
+    {
+        $user = new User();
+        if (isset($_SESSION[User::SESSION]) && $_SESSION[User::SESSION]['iduser'] > 0) {
+
+            $user->setData($_SESSION[User::SESSION]);
+
+        }
+        return $user;
+    }
+
+    public static function checkLogin($inadmin = true){
+        if(
+            !isset($_SESSION[User::SESSION])
+            ||
+            !$_SESSION[User::SESSION]
+            ||
+            !(int)$_SESSION[User::SESSION]["iduser"] > 0
+        ){
+            //não está logado
+            return false;
+        }else{
+
+            if($inadmin === true && (bool)$_SESSION[User::SESSION]["inadmin"] === true){
+                return true;
+            }else if($inadmin === false){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+    }
+
     public static function login($login, $password)
     {
 
@@ -59,15 +93,7 @@ class User extends Model
     public static function verifyLogin($inadmin = true)
     {
 
-        if (
-            !isset($_SESSION[User::SESSION])
-            ||
-            !$_SESSION[User::SESSION]
-            ||
-            !(int)$_SESSION[User::SESSION]["iduser"] > 0
-            ||
-            (bool)$_SESSION[User::SESSION]["iduser"] !== $inadmin
-        ) {
+        if (User::checkLogin($inadmin)) {
 
             header("Location: /admin/login");
             exit;
@@ -93,7 +119,7 @@ class User extends Model
         $data = $this->getdespassword();
 
         $code = password_hash($data, PASSWORD_BCRYPT, [
-            "cost"=>15
+            "cost" => 15
         ]);
 
         //var_dump($code);$2y$15$mretfME/9/VWQ4a/zH2j9eBiKDyBMV.mwN5pCfCDBfbkN3jOKxiF6
@@ -168,17 +194,16 @@ class User extends Model
             ));
 
 
-
             if (count($results2) === 0) {
                 throw new \Exception("Não foi possível recuperar a senha");
             } else {
                 $dataRecovery = $results2[0];
                 $code = openssl_encrypt(
-                        $dataRecovery["idrecovery"],
-                        'AES-128-CBC',
-                        User::SECRET,
-                        0,
-                        User::SECRET_IV
+                    $dataRecovery["idrecovery"],
+                    'AES-128-CBC',
+                    User::SECRET,
+                    0,
+                    User::SECRET_IV
                 );
 
 
@@ -213,30 +238,33 @@ class User extends Model
             ":idrecovery" => $idrecovery
         ));
 
-        if(count($results) === 0){
+        if (count($results) === 0) {
             throw new \Exception("Não foi possível recuperar a senha");
-        }else{
+        } else {
             return $results[0];
         }
     }
 
-    public static function setForgotDecrypt($idrecovery){
+    public static function setForgotDecrypt($idrecovery)
+    {
 
         $sql = new Sql();
         $sql->query("UPDATE tb_userspasswordsrecoveries SET dtrecovery = NOW() WHERE idrecovery = :idrecovery", array(
-            ":idrecovery"=>$idrecovery
+            ":idrecovery" => $idrecovery
         ));
 
     }
-    public function setPassword($password){
+
+    public function setPassword($password)
+    {
         $sql = new Sql();
         $password_code = password_hash($password, PASSWORD_BCRYPT, [
-            "cost"=>15
+            "cost" => 15
         ]);;
 
         $sql->query("UPDATE tb_users SET despassword = :password WHERE iduser = :iduser", array(
-            ":password"=>$password_code,
-            ":iduser"=>$this->getiduser()
+            ":password" => $password_code,
+            ":iduser" => $this->getiduser()
         ));
     }
 

@@ -8,6 +8,7 @@ use \Hcode\PageAdmin;
 use \Hcode\Model\User;
 use \Hcode\Model\Category;
 use \Hcode\Model\Product;
+use \Hcode\Model\Cart;
 
 function formatPrice(float $vlprice)
 {
@@ -335,6 +336,13 @@ $app->get('/products/:desurl', function ($desurl) {
         "categories"=>$product->getCategories()
     ]);
 });
+
+$app->get('/cart', function () {
+    Cart::getFromSession();
+    $page = new Page();
+    $page->setTpl("cart");
+});
+
 
 $app->run();
 
