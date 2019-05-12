@@ -9,7 +9,11 @@ class Product extends Model
 {
 
     protected $fields = [
-        "iduser", "idperson", "deslogin", "despassword", "inadmin", "dtergister", "desperson", "nrphone", "desemail", "idcategory", "descategory", "idproduct", "desproduct", "vlprice", "vlwidth", "vlheight", "vllength", "vlweight", "desurl", "desphoto"
+        "iduser", "idperson", "deslogin", "despassword",
+        "inadmin", "dtergister", "desperson", "nrphone",
+        "desemail", "idcategory", "descategory", "idproduct",
+        "desproduct", "vlprice", "vlwidth", "vlheight",
+        "vllength", "vlweight", "desurl", "desphoto"
     ];
 
 
@@ -24,7 +28,7 @@ class Product extends Model
 
     public static function checkList($list)
     {
-        foreach ($list as &$row){
+        foreach ($list as &$row) {
             $p = new Product();
             $p->setData($row);
             $row = $p->getValues();
@@ -91,10 +95,11 @@ class Product extends Model
         return $values;
     }
 
-    public function setPhoto($file){
+    public function setPhoto($file)
+    {
         $extension = explode('.', $file['name']);
         $extension = end($extension);
-        switch ($extension){
+        switch ($extension) {
             case "jpg":
             case "jpeg":
                 $image = imagecreatefromjpeg($file['tmp_name']);
@@ -117,6 +122,26 @@ class Product extends Model
         imagedestroy($image);
 
         $this->checkPhoto();
+    }
+
+    public function getFromUrl($desurl)
+    {
+        $sql = new Sql();
+        $rows = $sql->select("select * from tb_products where desurl=:desurl limit 1;", [
+            ":desurl" => $desurl
+        ]);
+
+        $this->setData($rows[0]);
+    }
+
+    public function getCategories()
+    {
+        $sql = new Sql();
+        return $sql->select("
+            select * from tb_categories a inner join tb_productscategories b on a.idcategory = b.idcategory where b.idproduct = :idproduct
+        ", [
+            ":idproduct" => $this->getidproduct()
+        ]);
     }
 
 
