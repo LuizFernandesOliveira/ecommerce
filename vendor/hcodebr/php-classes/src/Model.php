@@ -12,7 +12,8 @@ class Model {
 		"idperson", "deslogin", "despassword", "inadmin",
 		"dtergister", "desperson", "nrphone", "desemail",
 		"idcategory", "descategory", "idproduct", "idcart",
-		"dessessionid", "deszipcode", "vlfreight", "nrdays"
+		"dessessionid", "deszipcode", "vlfreight", "nrdays",
+		"vlsubtotal", "vltotal"
 	];
 
 	public function setData($data)
