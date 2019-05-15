@@ -13,7 +13,7 @@ class Product extends Model
         "inadmin", "dtergister", "desperson", "nrphone",
         "desemail", "idcategory", "descategory", "idproduct",
         "desproduct", "vlprice", "vlwidth", "vlheight",
-        "vllength", "vlweight", "desurl", "desphoto"
+        "vllength", "vlweight", "desurl", "desphoto", "nrqtd", "vltotal"
     ];
 
 

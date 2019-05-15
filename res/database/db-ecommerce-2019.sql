@@ -103,12 +103,12 @@ VALUES (1, 1, 'admin', '$2y$12$YlooCyNvyTji8bPRcrfNfOKnVMmZA9ViM2A3IpFjmrpIbp5ov
 DROP TABLE IF EXISTS tb_carts;
 CREATE TABLE tb_carts
 (
-    idcart       int(11)     NOT NULL PRIMARY KEY,
+    idcart       int(11)     NOT NULL AUTO_INCREMENT PRIMARY KEY,
     dessessionid varchar(64) NOT NULL,
     iduser       int(11)              DEFAULT NULL,
-    deszipcode    char(8)              DEFAULT NULL,
+    deszipcode   char(8)              DEFAULT NULL,
     vlfreight    decimal(10, 2)       DEFAULT NULL,
-    nrdays    int(11)       DEFAULT NULL,
+    nrdays       int(11)              DEFAULT NULL,
     dtregister   timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP,
     KEY FK_carts_users_idx (iduser),
     CONSTRAINT fk_carts_users FOREIGN KEY (iduser) REFERENCES tb_users (iduser) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -122,7 +122,7 @@ CREATE TABLE tb_cartsproducts
     idcartproduct int(11)   NOT NULL AUTO_INCREMENT PRIMARY KEY,
     idcart        int(11)   NOT NULL,
     idproduct     int(11)   NOT NULL,
-    dtremoved     datetime  NOT NULL,
+    dtremoved     datetime,
     dtregister    timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     KEY FK_cartsproducts_carts_idx (idcart),
     KEY FK_cartsproducts_products_idx (idproduct),

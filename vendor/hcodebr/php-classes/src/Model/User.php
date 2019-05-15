@@ -13,14 +13,11 @@ class User extends Model
     const SECRET = '<?gith@#@cript?>';
     const SECRET_IV = '<?tpirc#@#htig?>';
 
-    protected $fields = [
-        "iduser", "idperson", "deslogin", "despassword", "inadmin", "dtergister", "desperson", "nrphone", "desemail", "idcategory", "descategory"
-    ];
 
     public static function getFromSession()
     {
         $user = new User();
-        if (isset($_SESSION[User::SESSION]) && $_SESSION[User::SESSION]['iduser'] > 0) {
+        if (isset($_SESSION[User::SESSION]) && (int)$_SESSION[User::SESSION]['iduser'] > 0) {
 
             $user->setData($_SESSION[User::SESSION]);
 
@@ -36,7 +33,6 @@ class User extends Model
             ||
             !(int)$_SESSION[User::SESSION]["iduser"] > 0
         ){
-            //não está logado
             return false;
         }else{
 
@@ -95,11 +91,11 @@ class User extends Model
 
         if (User::checkLogin($inadmin)) {
 
-            header("Location: /admin/login");
-            exit;
+            return true;
 
         }
-
+        header("Location: /admin/login");
+        exit;
     }
 
     public static function listAll()
