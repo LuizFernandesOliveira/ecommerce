@@ -55,7 +55,7 @@ class User extends Model
 
         $db = new Sql();
 
-        $results = $db->select("SELECT * FROM tb_users WHERE deslogin = :LOGIN", array(
+        $results = $db->select("SELECT * FROM tb_users a inner join tb_persons b using (idperson) WHERE deslogin = :LOGIN", array(
             ":LOGIN" => $login
         ));
 
@@ -116,12 +116,6 @@ class User extends Model
     {
 
         $sql = new Sql();
-
-        $data = ;
-
-        $code = password_hash($data, PASSWORD_BCRYPT, [
-            "cost" => 15
-        ]);
 
         $results = $sql->select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)",
             array(
@@ -297,6 +291,26 @@ class User extends Model
         $_SESSION[User::ERROR_REGISTER] = $msg;
     }
 
+    public static function getErrorRegister()
+    {
+        $msg = (isset($_SESSION[User::ERROR_REGISTER])) && $_SESSION[User::ERROR_REGISTER] ? $_SESSION[User::ERROR_REGISTER] : "";
+        User::clearErrorRegister();
+        return $msg;
+    }
+
+    public static function clearErrorRegister()
+    {
+        $_SESSION[User::ERROR_REGISTER] = NULL;
+    }
+
+    public static function checkLoginExist($login)
+    {
+        $sql = new Sql();
+        $results = $sql->select("select * from tb_users where deslogin = :deslogin",[
+           ':deslogin'=>$login
+        ]);
+        return (count($results) > 0);
+    }
 
 }
 

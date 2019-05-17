@@ -113,7 +113,7 @@
 
                                         <tr class="shipping">
                                             <th>Frete</th>
-                                            <td>R$<?php echo formatPrice($cart["vlfreight"]); ?>
+                                            <td><?php if( $cart["vlfreight"] > 0 ){ ?>R$<?php echo formatPrice($cart["vlfreight"]); ?><?php } ?>
 
                                                 <?php if( $cart["nrdays"] > 0 ){ ?><small>prazo de <?php echo htmlspecialchars( $cart["nrdays"], ENT_COMPAT, 'UTF-8', FALSE ); ?> dia(s)</small><?php } ?>
 

@@ -355,7 +355,7 @@ $app->get('/cart', function () {
     $page->setTpl("cart", [
         'cart' => $cart->getValues(),
         'products' => $cart->getProducts(),
-        'error'=>Cart::getMsgErro()
+        'error' => Cart::getMsgErro()
     ]);
 });
 
@@ -364,7 +364,7 @@ $app->get('/cart/:idproduct/add', function ($idproduct) {
     $product->get((int)$idproduct);
     $cart = Cart::getFromSession();
     $qtd = (isset($_GET['qtd'])) ? (int)$_GET['qtd'] : 1;
-    for($i = 0; $i < $qtd; $i++){
+    for ($i = 0; $i < $qtd; $i++) {
         $cart->addProduct($product);
     }
 
@@ -403,22 +403,24 @@ $app->get('/checkout', function () {
     $page = new Page();
     $page->setTpl("checkout", [
         'cart' => $cart->getValues(),
-        'address'=>$address->getValues()
+        'address' => $address->getValues()
     ]);
 });
 
 $app->get('/login', function () {
     $page = new Page();
     $page->setTpl("login", [
-        'error'=>User::getError()
+        'error' => User::getError(),
+        'errorRegister' => User::getErrorRegister(),
+        'registerValues' => (isset($_SESSION['registerValues'])) ? $_SESSION['registerValues'] : ['name' => '', 'email' => '', 'phone' => '']
     ]);
 });
 
 $app->post('/login', function () {
 
-    try{
+    try {
         User::login($_POST['login'], $_POST['password']);
-    }catch (Exception $e){
+    } catch (Exception $e) {
         User::setError($e->getMessage());
     }
 
@@ -429,6 +431,37 @@ $app->post('/login', function () {
 $app->get('/logout', function () {
     User::logout();
     header('Location: /login');
+    exit;
+});
+
+$app->post('/register', function () {
+    $_SESSION['registerValues'] = $_POST;
+
+    foreach ($_SESSION['registerValues'] as $key => $value) {
+        if (!isset($key) || $key == '') {
+            User::setErrorRegister('Preencha todos os campos');
+            header('Location: /login');
+            exit;
+        }
+    }
+    if (User::checkLoginExist($_POST['email']) === true) {
+        User::setErrorRegister('Este endereço de email já está sendo usado');
+        header('Location: /login');
+        exit;
+    }
+
+    $user = new User();
+    $user->setData([
+        'inadmin' => 0,
+        'deslogin' => $_POST['email'],
+        'desperson' => $_POST['name'],
+        'desemail' => $_POST['email'],
+        'despassword' => $_POST['password'],
+        'nrphone' => $_POST['phone']
+    ]);
+    $user->save();
+    User::login($_POST['email'], $_POST['password']);
+    header('Location: /checkout');
     exit;
 });
 
