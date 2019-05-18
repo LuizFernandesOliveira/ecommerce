@@ -131,7 +131,8 @@ class User extends Model
 
     }
 
-    public static function getPasswordHash($pass){
+    public static function getPasswordHash($pass)
+    {
         return password_hash($pass, PASSWORD_BCRYPT, [
             "cost" => 15
         ]);
@@ -177,7 +178,7 @@ class User extends Model
 
     }
 
-    public static function getForgot($email)
+    public static function getForgot($email, $inadmin = true)
     {
         $sql = new Sql();
         $results = $sql->select("SELECT * FROM tb_persons a INNER JOIN tb_users b USING (idperson) WHERE a.desemail = :EMAIL", array(
@@ -198,6 +199,7 @@ class User extends Model
                 throw new \Exception("Não foi possível recuperar a senha");
             } else {
                 $dataRecovery = $results2[0];
+
                 $code = openssl_encrypt(
                     $dataRecovery["idrecovery"],
                     'AES-128-CBC',
@@ -206,8 +208,13 @@ class User extends Model
                     User::SECRET_IV
                 );
 
+                if($inadmin === true){
+                    $link = "http://www.hcodecommerce.com.br/admin/forgot/reset?code=$code";
+                }else{
+                    $link = "http://www.hcodecommerce.com.br/forgot/reset?code=$code";
+                }
 
-                $link = "http://www.hcodecommerce.com.br/admin/forgot/reset?code=$code";
+
 
                 $mailer = new Mailer($data["desemail"], $data["desperson"], "Redefinir senha", "forgot", array(
                     "name" => $data["desperson"],
@@ -306,8 +313,8 @@ class User extends Model
     public static function checkLoginExist($login)
     {
         $sql = new Sql();
-        $results = $sql->select("select * from tb_users where deslogin = :deslogin",[
-           ':deslogin'=>$login
+        $results = $sql->select("select * from tb_users where deslogin = :deslogin", [
+            ':deslogin' => $login
         ]);
         return (count($results) > 0);
     }
