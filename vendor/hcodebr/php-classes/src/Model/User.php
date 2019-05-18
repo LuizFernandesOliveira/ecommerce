@@ -14,6 +14,7 @@ class User extends Model
     const SECRET_IV = '<?tpirc#@#htig?>';
     const ERROR = "UserError";
     const ERROR_REGISTER = "UserErrorRegister";
+    const SUCCESS ="UserSuccess";
 
 
     public static function getFromSession()
@@ -92,7 +93,6 @@ class User extends Model
 
     public static function verifyLogin($inadmin = true)
     {
-
         if (!User::checkLogin($inadmin)) {
             if ($inadmin) {
                 header("Location: /admin/login");
@@ -100,7 +100,7 @@ class User extends Model
                 header("Location: /login");
             }
         }
-        exit;
+        return true;
     }
 
     public static function listAll()
@@ -165,7 +165,7 @@ class User extends Model
                 ":inadmin" => $this->getinadmin()
             ));
 
-        $this->setData($results[0]);
+        $this->setData($results);
     }
 
     public function delete()
@@ -291,6 +291,23 @@ class User extends Model
     public static function clearError()
     {
         $_SESSION[User::ERROR] = NULL;
+    }
+
+    public static function setSuccess($msg)
+    {
+        $_SESSION[User::SUCCESS] = $msg;
+    }
+
+    public static function getSuccess()
+    {
+        $msg = (isset($_SESSION[User::SUCCESS])) && $_SESSION[User::SUCCESS] ? $_SESSION[User::SUCCESS] : "";
+        User::clearSuccess();
+        return $msg;
+    }
+
+    public static function clearSuccess()
+    {
+        $_SESSION[User::SUCCESS] = NULL;
     }
 
     public static function setErrorRegister($msg)
