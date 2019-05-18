@@ -65,21 +65,26 @@ VALUES (1, 'Luiz Fernandes de Oliveira', 'luizfernandes29111997116669964@gmail.c
         '2019-04-14 02:00:00');
 
 
+
 DROP TABLE IF EXISTS tb_addresses;
-CREATE TABLE tb_addresses
+
+CREATE TABLE `tb_addresses`
 (
-    idaddress     int(11)      NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    idperson      int(11)      NOT NULL,
-    desaddress    varchar(128) NOT NULL,
-    descomplement varchar(32)           DEFAULT NULL,
-    descity       varchar(32)  NOT NULL,
-    desstate      varchar(32)  NOT NULL,
-    descountry    varchar(32)  NOT NULL,
-    nrzipcode     int(11)      NOT NULL,
-    dtregister    timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    KEY fk_addresses_persons_idx (idperson),
-    CONSTRAINT fk_addresses_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE NO ACTION ON UPDATE NO ACTION
+    `idaddress`     int(11)      NOT NULL AUTO_INCREMENT,
+    `idperson`      int(11)      NOT NULL,
+    `desaddress`    varchar(128) NOT NULL,
+    `descomplement` varchar(32)           DEFAULT NULL,
+    `descity`       varchar(32)  NOT NULL,
+    `desstate`      varchar(32)  NOT NULL,
+    `descountry`    varchar(32)  NOT NULL,
+    `deszipcode`    char(8)      NOT NULL,
+    `desdistrict`   varchar(32)  NOT NULL,
+    `dtregister`    timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`idaddress`),
+    KEY `fk_addresses_persons_idx` (`idperson`),
+    CONSTRAINT `fk_addresses_persons` FOREIGN KEY (`idperson`) REFERENCES `tb_persons` (`idperson`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8;
 
 
@@ -387,4 +392,44 @@ BEGIN
 
 END$$
 
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE `sp_addresses_save`(pidaddress int(11),
+                                     pidperson int(11),
+                                     pdesaddress varchar(128),
+                                     pdescomplement varchar(32),
+                                     pdescity varchar(32),
+                                     pdesstate varchar(32),
+                                     pdescountry varchar(32),
+                                     pdeszipcode char(8),
+                                     pdesdistrict varchar(32))
+BEGIN
+
+    IF pidaddress > 0 THEN
+
+        UPDATE tb_addresses
+        SET idperson      = pidperson,
+            desaddress    = pdesaddress,
+            descomplement = pdescomplement,
+            descity       = pdescity,
+            desstate      = pdesstate,
+            descountry    = pdescountry,
+            deszipcode    = pdeszipcode,
+            desdistrict   = pdesdistrict
+        WHERE idaddress = pidaddress;
+
+    ELSE
+
+        INSERT INTO tb_addresses (idperson, desaddress, descomplement, descity, desstate, descountry, deszipcode,
+                                  desdistrict)
+        VALUES (pidperson, pdesaddress, pdescomplement, pdescity, pdesstate, pdescountry, pdeszipcode, pdesdistrict);
+
+        SET pidaddress = LAST_INSERT_ID();
+
+    END IF;
+
+    SELECT * FROM tb_addresses WHERE idaddress = pidaddress;
+
+END$$
 DELIMITER ;
